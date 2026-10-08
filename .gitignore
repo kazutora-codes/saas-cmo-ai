@@ -9,6 +9,7 @@ data/content/
 data/intel/
 data/strategy/
 data/video/
+data/publish/
 data/*.db
 data/*.db-journal
 *.mp4

@@ -30,4 +30,6 @@ paths:
   strategy_out: "data/strategy"
   video_in: "data/video/in"
   video_out: "data/video/out"
+  publish_queue: "data/publish/queue.json"
+  publish_export: "data/publish/export"
   analytics_db: "data/analytics.db"

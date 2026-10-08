@@ -1,0 +1,24 @@
+# Brick 6 — publish adapters (free tier first)
+
+queue:
+  path: "data/publish/queue.json"
+  export_dir: "data/publish/export"
+
+platforms:
+  x:
+    enabled: true
+    # Free tier: set keys in .env or leave empty for manual export only
+    max_chars: 280
+    # Prefer API when credentials exist; else export
+    prefer_api: true
+  linkedin:
+    enabled: true
+    max_chars: 3000
+    # LinkedIn marketing API is restricted; default is manual export
+    prefer_api: false
+
+export:
+  # Write a human-readable package for copy-paste / Typefully / Buffer
+  write_markdown: true
+  write_json: true
+  write_plain: true
