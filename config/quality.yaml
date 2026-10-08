@@ -1,0 +1,25 @@
+# Brick 4 — quality gate thresholds and ranking weights
+
+thresholds:
+  min_intent: 0.70
+  min_originality: 0.65
+  min_humor: 0.45          # dry sarcasm ok; pure serious can still pass overall
+  min_brand_fit: 0.55
+  min_overall: 0.68        # must clear this to be publishable
+
+weights:
+  intent: 0.30
+  originality: 0.25
+  humor: 0.20
+  brand_fit: 0.25
+
+judge:
+  use_llm: true
+  # If LLM judge fails, heuristic-only scores still rank variants
+  require_llm: false
+
+ranking:
+  # After scoring, keep only top_k as publish candidates
+  top_k: 1
+  # Drop any variant below min_overall before ranking
+  drop_failures: true

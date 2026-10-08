@@ -42,8 +42,9 @@ python scripts/run_market_intel.py --no-llm
 # Brick 3 — weekly pillars + calendar
 python scripts/run_strategy.py --no-llm
 
-# Brick 1 — content from a planned calendar slot
-python scripts/generate_content.py --from-strategy 0 --with-intel
+# Brick 1+4 — content from strategy, ranked by quality gates
+python scripts/generate_content.py --from-strategy 0 --with-intel --no-llm-judge
+python scripts/rank_content.py data/content/<file>.json --no-llm
 ```
 
 ## Philosophy
