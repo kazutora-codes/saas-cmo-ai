@@ -11,6 +11,7 @@ data/strategy/
 data/video/
 data/publish/
 data/analytics/
+data/autopilot/
 data/*.db
 data/*.db-journal
 *.mp4
