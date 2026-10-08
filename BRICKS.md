@@ -85,11 +85,22 @@ python scripts/publish.py --force-export   # always write files
 python scripts/queue_post.py --list
 ```
 
-## Brick 7 — Analytics + learning
+## Brick 7 — Analytics + learning (done)
 
-- SQLite: post → metrics → outcome
-- Weekly “what worked / why” report
-- Feed winners into few-shot examples
+- [x] `config/analytics.yaml` — thresholds + few-shot settings
+- [x] SQLite: posts / metrics / outcomes (`data/analytics/metrics.db`)
+- [x] Import published queue items + manual metric logging
+- [x] Winner / loser labeling from engagement
+- [x] Weekly report + pattern notes
+- [x] Few-shot winners fed into content agent
+- [x] CLI: `scripts/log_metrics.py`, `scripts/analytics_report.py`
+
+```bash
+python scripts/log_metrics.py --init --import-queue
+python scripts/log_metrics.py --post-id 1 --impressions 1200 --likes 48 --replies 6 --reposts 9
+python scripts/log_metrics.py --evaluate --list
+python scripts/analytics_report.py --days 7
+```
 
 ## Brick 8 — Autopilot loop
 

@@ -53,6 +53,11 @@ python scripts/process_video.py path/to/clip.mp4 -c "Your team opened 2 of 47 ch
 python scripts/queue_post.py --body "Your dashboard has 47 charts." --platform x
 python scripts/publish.py --force-export
 python scripts/queue_post.py --list
+
+# Brick 7 — analytics + learning
+python scripts/log_metrics.py --init --import-queue
+python scripts/log_metrics.py --post-id 1 --likes 48 --impressions 1200
+python scripts/analytics_report.py --days 7
 ```
 
 ## Philosophy
