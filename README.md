@@ -45,6 +45,9 @@ python scripts/run_strategy.py --no-llm
 # Brick 1+4 — content from strategy, ranked by quality gates
 python scripts/generate_content.py --from-strategy 0 --with-intel --no-llm-judge
 python scripts/rank_content.py data/content/<file>.json --no-llm
+
+# Brick 5 — vertical short from a real clip (FFmpeg)
+python scripts/process_video.py path/to/clip.mp4 -c "Your team opened 2 of 47 charts."
 ```
 
 ## Philosophy

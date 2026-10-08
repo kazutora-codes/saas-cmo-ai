@@ -55,11 +55,18 @@ python scripts/generate_content.py --from-strategy 0 --with-intel --no-llm-judge
 python scripts/rank_content.py data/content/SOME.json --no-llm
 ```
 
-## Brick 5 — Video pipeline
+## Brick 5 — Video pipeline (done)
 
-- FFmpeg captions, 9:16 crop, loudnorm
-- Simple AI-look heuristics + regenerate flag
-- Script → captioned short from screen recording / stills
+- [x] `config/video.yaml` — 9:16 output, loudnorm, caption style, AI-look thresholds
+- [x] FFmpeg: center crop → 1080×1920, loudnorm, burned-in captions (SRT or text)
+- [x] AI-look heuristics (freeze ratio + temporal variance) → `regenerate` flag
+- [x] CLI: `scripts/process_video.py`
+- [x] Prefers hybrid real footage; pure AI video often flagged
+
+```bash
+python scripts/process_video.py path/to/clip.mp4 -c "Your team opened 2 of 47 charts."
+python scripts/process_video.py path/to/clip.mp4 --srt captions.srt -o data/video/out/short.mp4
+```
 
 ## Brick 6 — Publish adapters
 
