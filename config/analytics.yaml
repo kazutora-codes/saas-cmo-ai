@@ -1,0 +1,16 @@
+# Brick 7 — analytics + learning
+# Default path is under data/. Override with absolute path if needed.
+
+db: "data/analytics/metrics.db"
+
+outcome:
+  winner_min_engagement: 0.02
+  winner_min_likes: 10
+  loser_max_likes: 2
+
+learning:
+  few_shot_top_n: 5
+  min_posts: 3
+
+report:
+  default_days: 7

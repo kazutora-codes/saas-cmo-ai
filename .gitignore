@@ -10,6 +10,7 @@ data/intel/
 data/strategy/
 data/video/
 data/publish/
+data/analytics/
 data/*.db
 data/*.db-journal
 *.mp4
