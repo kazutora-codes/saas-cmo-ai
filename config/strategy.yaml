@@ -1,0 +1,39 @@
+# Weekly strategy defaults. Brand goals + market intel override these.
+
+week:
+  days: 7
+  # Posts per platform per week (rough targets)
+  cadence:
+    x: 5
+    linkedin: 3
+
+pillars:
+  # Default pillars if intel is thin. Strategy agent merges with intel themes.
+  defaults:
+    - id: pain
+      name: "Pain & friction"
+      intent: "name a real founder/ops pain so the product feels inevitable"
+    - id: product
+      name: "Product proof"
+      intent: "show a concrete product behavior, not a feature list"
+    - id: contrarian
+      name: "Contrarian take"
+      intent: "challenge a popular SaaS belief with a sharp angle"
+    - id: social_proof
+      name: "Evidence"
+      intent: "metrics, before/after, or specific customer moments"
+    - id: culture
+      name: "Builder culture"
+      intent: "how the team thinks; humor + standards without corporate fluff"
+
+formats:
+  x:
+    - short_take
+    - thread_seed
+  linkedin:
+    - insight_post
+    - story_post
+
+planning:
+  use_llm: true
+  max_posts: 10

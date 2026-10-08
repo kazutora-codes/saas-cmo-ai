@@ -7,6 +7,7 @@ __pycache__/
 .mypy_cache/
 data/content/
 data/intel/
+data/strategy/
 data/*.db
 data/*.db-journal
 *.mp4

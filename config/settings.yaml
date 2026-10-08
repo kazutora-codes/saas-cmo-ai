@@ -27,4 +27,5 @@ paths:
   data_dir: "data"
   content_out: "data/content"
   intel_out: "data/intel"
+  strategy_out: "data/strategy"
   analytics_db: "data/analytics.db"
