@@ -48,6 +48,11 @@ python scripts/rank_content.py data/content/<file>.json --no-llm
 
 # Brick 5 — vertical short from a real clip (FFmpeg)
 python scripts/process_video.py path/to/clip.mp4 -c "Your team opened 2 of 47 charts."
+
+# Brick 6 — queue + publish (export without API keys)
+python scripts/queue_post.py --body "Your dashboard has 47 charts." --platform x
+python scripts/publish.py --force-export
+python scripts/queue_post.py --list
 ```
 
 ## Philosophy

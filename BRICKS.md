@@ -68,10 +68,22 @@ python scripts/process_video.py path/to/clip.mp4 -c "Your team opened 2 of 47 ch
 python scripts/process_video.py path/to/clip.mp4 --srt captions.srt -o data/video/out/short.mp4
 ```
 
-## Brick 6 — Publish adapters
+## Brick 6 — Publish adapters (done)
 
-- X API free tier / manual export queue
-- LinkedIn manual + API when available
+- [x] `config/publish.yaml` — platforms, char limits, export options
+- [x] Local JSON queue (`data/publish/queue.json`)
+- [x] Manual export package (`.txt` / `.md` / `.json`) — always works offline
+- [x] X adapter: API when free-tier keys present, else export
+- [x] LinkedIn adapter: export by default (API optional if token set)
+- [x] CLI: `scripts/queue_post.py`, `scripts/publish.py`
+
+```bash
+python scripts/queue_post.py --body "Your dashboard has 47 charts." --platform x
+python scripts/queue_post.py --from-content data/content/SOME.json
+python scripts/publish.py                  # export or API
+python scripts/publish.py --force-export   # always write files
+python scripts/queue_post.py --list
+```
 
 ## Brick 7 — Analytics + learning
 
