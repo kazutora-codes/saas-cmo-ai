@@ -31,5 +31,18 @@ def load_brand() -> dict[str, Any]:
 
 def ensure_data_dirs() -> None:
     settings = load_settings()
-    for key in ("data_dir", "content_out"):
-        (ROOT / settings["paths"][key]).mkdir(parents=True, exist_ok=True)
+    for key in ("data_dir", "content_out", "intel_out"):
+        path_key = settings["paths"].get(key)
+        if path_key:
+            (ROOT / path_key).mkdir(parents=True, exist_ok=True)
+
+
+def load_latest_intel() -> dict | None:
+    """Return the latest market intel brief if present."""
+    settings = load_settings()
+    latest = ROOT / settings["paths"].get("intel_out", "data/intel") / "latest.json"
+    if not latest.exists():
+        return None
+    import json
+
+    return json.loads(latest.read_text(encoding="utf-8"))
