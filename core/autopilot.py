@@ -1,4 +1,4 @@
-"""Brick 8: autopilot orchestrator - one cycle or continuous loop with kill switch."""
+"""Brick 8/9: autopilot orchestrator - cycle + learning with kill switch."""
 
 from __future__ import annotations
 
@@ -26,7 +26,6 @@ def _today() -> str:
 
 
 def _rule_body(topic: str, platform: str) -> str:
-    """Offline fallback post when no LLM is configured."""
     topic = (topic or "").strip() or "your analytics dashboard"
     if platform == "linkedin":
         return (
@@ -148,6 +147,7 @@ class Autopilot:
                 ("content", self._step_content),
                 ("publish", self._step_publish),
                 ("analytics_import", self._step_analytics),
+                ("learning", self._step_learning),
             ]
             for key, fn in steps:
                 if not cycle_cfg.get(key, True):
@@ -295,10 +295,9 @@ class Autopilot:
                 )
                 queued.append(item.id)
 
-            ok = len(queued) > 0
             return StepResult(
                 "content",
-                ok,
+                len(queued) > 0,
                 f"queued={len(queued)} failed={len(failed)}",
                 {"queue_ids": queued, "failed_topics": failed},
             )
@@ -350,6 +349,23 @@ class Autopilot:
             return StepResult("analytics_import", True, f"imported={n}")
         except Exception as e:
             return StepResult("analytics_import", False, str(e))
+
+    def _step_learning(self) -> StepResult:
+        try:
+            from analytics.learn import load_learning_config, run_learning_cycle
+
+            cfg = load_learning_config()
+            if not cfg.get("enabled_in_autopilot", True):
+                return StepResult("learning", True, "skipped (disabled)")
+            data = run_learning_cycle(use_llm=False)
+            return StepResult(
+                "learning",
+                True,
+                f"rules_do={len(data.get('rules_do') or [])} rules_dont={len(data.get('rules_dont') or [])}",
+                {"path": data.get("_path", "")},
+            )
+        except Exception as e:
+            return StepResult("learning", False, str(e))
 
     def run_loop(
         self, interval_minutes: int | None = None, max_cycles: int | None = None
