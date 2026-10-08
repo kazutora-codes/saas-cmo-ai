@@ -41,10 +41,19 @@ python scripts/run_strategy.py --no-llm
 python scripts/generate_content.py --from-strategy 0 --with-intel
 ```
 
-## Brick 4 — Stronger quality gates
+## Brick 4 — Stronger quality gates (done)
 
-- LLM-as-judge for humor calibration
-- A/B variant ranking before publish
+- [x] `config/quality.yaml` — thresholds + ranking weights
+- [x] Heuristic gates: intent, originality, humor, brand fit
+- [x] LLM-as-judge for humor/brand calibration (optional)
+- [x] Variant ranking + winner selection before publish
+- [x] CLI: `scripts/rank_content.py`
+- [x] Wired into `generate_content.py` (`--no-rank` / `--no-llm-judge`)
+
+```bash
+python scripts/generate_content.py --from-strategy 0 --with-intel --no-llm-judge
+python scripts/rank_content.py data/content/SOME.json --no-llm
+```
 
 ## Brick 5 — Video pipeline
 
