@@ -28,4 +28,6 @@ paths:
   content_out: "data/content"
   intel_out: "data/intel"
   strategy_out: "data/strategy"
+  video_in: "data/video/in"
+  video_out: "data/video/out"
   analytics_db: "data/analytics.db"

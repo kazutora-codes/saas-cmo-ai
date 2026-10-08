@@ -8,6 +8,7 @@ __pycache__/
 data/content/
 data/intel/
 data/strategy/
+data/video/
 data/*.db
 data/*.db-journal
 *.mp4

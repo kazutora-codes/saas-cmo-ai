@@ -1,0 +1,39 @@
+# Brick 5 — free FFmpeg video pipeline
+
+output:
+  width: 1080
+  height: 1920          # 9:16 vertical
+  fps: 30
+  video_codec: libx264
+  audio_codec: aac
+  crf: 23
+  preset: veryfast
+  pixel_format: yuv420p
+
+audio:
+  loudnorm: true
+  # EBU R128-ish targets via loudnorm filter
+  i: -16
+  tp: -1.5
+  lra: 11
+
+captions:
+  enabled: true
+  font_size: 48
+  font_color: white
+  box: 1
+  box_color: black@0.55
+  margin_v: 120
+  # max chars per line for auto-wrapped burn-in captions
+  max_line_chars: 32
+
+ai_look:
+  # Heuristic flags — pure generative video often trips these
+  max_still_ratio: 0.85       # fraction of near-identical consecutive frames
+  min_edge_variance: 8.0      # low edge variance → overly smooth / plastic
+  flag_threshold: 0.55        # composite risk score to set regenerate=true
+  sample_frames: 24
+
+paths:
+  video_in: "data/video/in"
+  video_out: "data/video/out"
