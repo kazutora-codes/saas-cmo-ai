@@ -11,6 +11,25 @@ from core.config import load_brand, load_settings
 from core.llm import FreeLLM
 
 
+def _few_shot_block() -> str:
+    """Inject winning posts from analytics as few-shot examples."""
+    try:
+        from analytics.report import load_few_shot
+
+        examples = load_few_shot()
+    except Exception:
+        return ""
+    if not examples:
+        return ""
+    lines = ["Recent winners (match this specificity and tone):"]
+    for ex in examples[:5]:
+        body = (ex.get("body") or "").strip()
+        if not body:
+            continue
+        lines.append(f"- ({ex.get('platform', 'x')}) {body[:280]}")
+    return "\n".join(lines) if len(lines) > 1 else ""
+
+
 @dataclass
 class ContentPiece:
     platform: str
@@ -48,7 +67,7 @@ Rules:
 def _brand_block(brand: dict[str, Any]) -> str:
     p = brand["product"]
     v = brand["voice"]
-    return f"""Product: {p['name']} — {p['one_liner']}
+    return f"""Product: {p['name']} - {p['one_liner']}
 Audience: {p['audience']}
 Differentiators: {', '.join(p.get('differentiators', []))}
 Tone: {v['tone']}
@@ -72,7 +91,6 @@ def _parse_json(text: str) -> dict[str, Any]:
 
 
 def _heuristic_scores(body: str, brand: dict[str, Any]) -> tuple[float, float, str]:
-    """Cheap local gates so we don't burn LLM calls on obvious trash."""
     notes: list[str] = []
     forbidden = [f.lower() for f in brand["voice"].get("forbidden", [])]
     lower = body.lower()
@@ -141,6 +159,7 @@ class ContentAgent:
         attempt: int,
     ) -> ContentPiece:
         user = f"""{_brand_block(self.brand)}
+{_few_shot_block()}
 
 Topic / angle: {topic}
 Platform: {platform}
