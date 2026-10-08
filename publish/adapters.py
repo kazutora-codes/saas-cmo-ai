@@ -11,7 +11,6 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha1
-from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
@@ -144,6 +143,7 @@ def _x_post_bearer(text: str, bearer: str) -> PublishResult:
 
 
 def _x_post_oauth1(text: str, creds: dict[str, str]) -> PublishResult:
+    """OAuth 1.0a signed POST to statuses/update (v1.1)."""
     url = "https://api.twitter.com/1.1/statuses/update.json"
     oauth_params = {
         "oauth_consumer_key": creds["api_key"],
@@ -156,47 +156,23 @@ def _x_post_oauth1(text: str, creds: dict[str, str]) -> PublishResult:
     post_params = {"status": text}
     all_params = {**oauth_params, **post_params}
     param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
+        f"{quote(str(k), safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
         for k, v in sorted(all_params.items())
     )
-    # fix spacing
+    # build cleanly without accidental spaces
     param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
-        for k, v in sorted(all_params.items())
-    )
-    param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
-        for k, v in sorted(all_params.items())
-    )
-    param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
-        for k, v in sorted(all_params.items())
-    )
-    # Correct param string without accidental spaces
-    param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
-        for k, v in sorted(all_params.items())
-    )
-    param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
-        for k, v in sorted(all_params.items())
-    )
-
-    # Clean implementation
-    param_str = "&".join(
-        f"{quote(k, safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
+        f"{quote(str(k), safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
         for k, v in sorted(all_params.items())
     )
     param_str = "&".join(
         f"{quote(str(k), safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
         for k, v in sorted(all_params.items())
     )
-
-    pairs = []
-    for k, v in sorted(all_params.items()):
-        pairs.append(f"{quote(str(k), safe='')}= {quote(str(v), safe='')}".replace("= ", "="))
+    pairs = [
+        f"{quote(str(k), safe='')}= {quote(str(v), safe='')}".replace("= ", "=")
+        for k, v in sorted(all_params.items())
+    ]
     param_str = "&".join(pairs)
-
     base = f"POST&{quote(url, safe='')}&{quote(param_str, safe='')}"
     signing_key = (
         f"{quote(creds['api_secret'], safe='')}&{quote(creds['access_secret'], safe='')}"
@@ -207,7 +183,11 @@ def _x_post_oauth1(text: str, creds: dict[str, str]) -> PublishResult:
         f'{quote(k, safe="")}="{quote(str(v), safe="")}"' for k, v in sorted(oauth_params.items())
     )
     with httpx.Client(timeout=30.0) as client:
-        r = client.post(url, headers={"Authorization": auth_header}, data=post_params)
+        r = client.post(
+            url,
+            headers={"Authorization": auth_header},
+            data=post_params,
+        )
     if r.status_code in (200, 201):
         data = r.json()
         return PublishResult(
