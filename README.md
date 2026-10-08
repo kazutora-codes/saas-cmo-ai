@@ -39,8 +39,11 @@ pip install -r requirements.txt
 # Brick 2 — market intel (no keys)
 python scripts/run_market_intel.py --no-llm
 
-# Brick 1 — content (optionally use intel brief)
-python scripts/generate_content.py --topic "why your SaaS onboarding is too polite" --with-intel
+# Brick 3 — weekly pillars + calendar
+python scripts/run_strategy.py --no-llm
+
+# Brick 1 — content from a planned calendar slot
+python scripts/generate_content.py --from-strategy 0 --with-intel
 ```
 
 ## Philosophy

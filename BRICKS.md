@@ -26,10 +26,20 @@ python scripts/run_market_intel.py          # + LLM refine if available
 python scripts/generate_content.py --topic "..." --with-intel
 ```
 
-## Brick 3 — Strategy agent
+## Brick 3 — Strategy agent (done)
 
-- Weekly content pillars from intel + goals
-- Calendar of planned posts
+- [x] `config/strategy.yaml` — cadence, default pillars, formats
+- [x] Strategy agent merges brand goals + intel themes/topics
+- [x] Weekly pillars + dated calendar (X + LinkedIn)
+- [x] Rule-based plan without LLM; optional LLM refine
+- [x] CLI: `scripts/run_strategy.py`
+- [x] Content CLI: `--from-strategy N` / `--with-strategy`
+
+```bash
+python scripts/run_market_intel.py --no-llm
+python scripts/run_strategy.py --no-llm
+python scripts/generate_content.py --from-strategy 0 --with-intel
+```
 
 ## Brick 4 — Stronger quality gates
 
