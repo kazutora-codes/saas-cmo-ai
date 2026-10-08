@@ -10,10 +10,21 @@
 
 **You need:** Ollama running locally, **or** a free Groq/Gemini API key in `.env`.
 
-## Brick 2 — Market intel (next)
+## Brick 2 — Market intel (done)
 
-- Free RSS + Hacker News + Reddit public JSON
-- Daily trend brief → feeds content agent
+- [x] `config/intel.yaml` — free sources + scoring keywords
+- [x] Collectors: Hacker News API, Lobsters JSON, Reddit public JSON (soft-fail), RSS/Atom
+- [x] Relevance ranking vs brand keywords
+- [x] Brief → `data/intel/latest.json` (+ timestamped copies)
+- [x] Optional LLM refine (themes / opportunities / topics)
+- [x] CLI: `scripts/run_market_intel.py`
+- [x] Content agent can load intel via `--with-intel`
+
+```bash
+python scripts/run_market_intel.py --no-llm
+python scripts/run_market_intel.py          # + LLM refine if available
+python scripts/generate_content.py --topic "..." --with-intel
+```
 
 ## Brick 3 — Strategy agent
 

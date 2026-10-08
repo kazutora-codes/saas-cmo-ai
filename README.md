@@ -27,15 +27,20 @@ No paid APIs required to run the core loop. Optional free-tier keys go in `.env`
 7. **Analytics + learning** — SQLite performance log, pattern extraction
 8. **Autopilot loop** — schedule, regenerate-on-fail, daily improve
 
-## Quick start (Brick 1)
+## Quick start
 
 ```bash
 cd saas-cmo-ai
 cp config/brand.example.yaml config/brand.yaml
-# Optional: set GROQ_API_KEY or GEMINI_API_KEY in .env for cloud free tiers
-# Or run Ollama locally: ollama pull llama3.2 && ollama serve
+pip install -r requirements.txt
+# Optional free LLM: ollama pull llama3.2 && ollama serve
+# Or set GROQ_API_KEY / GEMINI_API_KEY in .env
 
-python scripts/generate_content.py --topic "why your SaaS onboarding is too polite"
+# Brick 2 — market intel (no keys)
+python scripts/run_market_intel.py --no-llm
+
+# Brick 1 — content (optionally use intel brief)
+python scripts/generate_content.py --topic "why your SaaS onboarding is too polite" --with-intel
 ```
 
 ## Philosophy
