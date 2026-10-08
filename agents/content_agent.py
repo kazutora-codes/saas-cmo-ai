@@ -11,6 +11,15 @@ from core.config import load_brand, load_settings
 from core.llm import FreeLLM
 
 
+def _learnings_block() -> str:
+    try:
+        from analytics.learn import learnings_prompt_block
+
+        return learnings_prompt_block()
+    except Exception:
+        return ""
+
+
 def _few_shot_block() -> str:
     """Inject winning posts from analytics as few-shot examples."""
     try:
@@ -160,6 +169,7 @@ class ContentAgent:
     ) -> ContentPiece:
         user = f"""{_brand_block(self.brand)}
 {_few_shot_block()}
+{_learnings_block()}
 
 Topic / angle: {topic}
 Platform: {platform}
