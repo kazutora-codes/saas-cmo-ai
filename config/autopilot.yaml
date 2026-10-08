@@ -7,32 +7,26 @@ state_path: "data/autopilot/state.json"
 log_dir: "data/autopilot/runs"
 
 cycle:
-  # Steps to run each cycle
   market_intel: true
   strategy: true
   content: true
   publish: true
   analytics_import: true
+  learning: true
 
 content:
-  # How many strategy calendar slots to generate per cycle
   slots_per_cycle: 2
-  # Prefer slots scheduled for today (UTC); else take next pending
   prefer_today: true
-  # Regenerate if quality gates fail
   max_regenerate: 3
   use_intel: true
-  use_llm_judge: false   # heuristic judge by default (free / offline)
+  use_llm_judge: false
 
 publish:
-  force_export: true     # true = always write export files (safe default)
-  # Set false + API keys in .env to attempt live post
+  force_export: true
 
 loop:
-  # When run with --loop
   interval_minutes: 60
-  max_cycles: 0          # 0 = unlimited until kill switch
+  max_cycles: 0
 
 llm:
-  # Prefer rule-based when no keys (safer for unattended runs)
   allow_no_llm: true

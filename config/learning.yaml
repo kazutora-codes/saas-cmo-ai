@@ -1,0 +1,20 @@
+# Brick 9 — daily self-improvement
+
+# Where durable learnings live
+store: "data/analytics/learnings.json"
+history_dir: "data/analytics/learning_runs"
+
+# How aggressive to be when updating brand/strategy hints
+max_rules: 12
+max_topic_boosts: 8
+max_topic_avoid: 8
+
+# Min outcomes before we trust a pattern
+min_winners: 2
+min_losers: 1
+
+# Optional LLM reflection (falls back to heuristics)
+use_llm: false
+
+# Autopilot: run learning step after analytics import
+enabled_in_autopilot: true
