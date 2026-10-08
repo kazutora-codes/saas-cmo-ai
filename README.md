@@ -58,6 +58,11 @@ python scripts/queue_post.py --list
 python scripts/log_metrics.py --init --import-queue
 python scripts/log_metrics.py --post-id 1 --likes 48 --impressions 1200
 python scripts/analytics_report.py --days 7
+
+# Brick 8 — autopilot (one cycle or loop)
+python scripts/run_autopilot.py --once
+python scripts/run_autopilot.py --loop --interval 60 --max-cycles 3
+python scripts/run_autopilot.py --stop
 ```
 
 ## Philosophy

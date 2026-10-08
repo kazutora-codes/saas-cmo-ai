@@ -102,8 +102,24 @@ python scripts/log_metrics.py --evaluate --list
 python scripts/analytics_report.py --days 7
 ```
 
-## Brick 8 — Autopilot loop
+## Brick 8 — Autopilot loop (done)
 
-- Scheduled runs
-- Auto-regenerate on gate fail
-- Human kill switch
+- [x] `config/autopilot.yaml` — cycle steps, regenerate, interval, kill path
+- [x] Orchestrator: intel → strategy → content → publish → analytics import
+- [x] Auto-regenerate on quality gate fail (LLM or rule-based fallback)
+- [x] Kill switch file (`data/autopilot/STOP`)
+- [x] CLI: `scripts/run_autopilot.py` (`--once` / `--loop` / `--stop` / `--resume` / `--status`)
+- [x] Cycle logs under `data/autopilot/runs/`
+
+```bash
+python scripts/run_autopilot.py --once
+python scripts/run_autopilot.py --loop --interval 60 --max-cycles 3
+python scripts/run_autopilot.py --stop    # arm kill switch
+python scripts/run_autopilot.py --resume  # clear kill switch
+python scripts/run_autopilot.py --status
+```
+
+Cron example (free):
+```cron
+0 */6 * * * cd /path/to/saas-cmo-ai && python scripts/run_autopilot.py --once >> data/autopilot/cron.log 2>&1
+```
