@@ -26,4 +26,5 @@ paths:
   brand: "config/brand.yaml"
   data_dir: "data"
   content_out: "data/content"
+  intel_out: "data/intel"
   analytics_db: "data/analytics.db"

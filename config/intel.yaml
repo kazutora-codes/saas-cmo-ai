@@ -1,0 +1,60 @@
+# Free market intelligence sources. No API keys required.
+
+keywords:
+  # Used to score relevance against your brand (merged with brand.yaml terms)
+  boost:
+    - saas
+    - startup
+    - analytics
+    - onboarding
+    - pricing
+    - churn
+    - product-led
+    - growth
+    - b2b
+    - founder
+    - mrr
+    - retention
+    - dashboard
+    - metrics
+
+hacker_news:
+  enabled: true
+  top_n: 40
+  min_score: 30
+
+lobsters:
+  enabled: true
+  top_n: 30
+  min_score: 5
+
+reddit:
+  enabled: true
+  # Public JSON; may 403 on some networks — collector fails soft
+  subreddits:
+    - SaaS
+    - startups
+    - Entrepreneur
+    - productmanagement
+    - analytics
+  limit_per_sub: 15
+  min_score: 20
+
+rss:
+  enabled: true
+  max_items_per_feed: 12
+  feeds:
+    - name: hacker_news_frontpage
+      url: "https://hnrss.org/frontpage"
+    - name: product_hunt
+      url: "https://www.producthunt.com/feed"
+    - name: techcrunch
+      url: "https://techcrunch.com/feed/"
+    - name: the_verge
+      url: "https://www.theverge.com/rss/index.xml"
+
+brief:
+  top_signals: 15
+  content_angles: 8
+  # If true and an LLM is available, refine the brief; else pure ranking
+  use_llm: true
