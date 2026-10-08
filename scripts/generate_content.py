@@ -19,6 +19,7 @@ from core.config import (  # noqa: E402
     load_settings,
 )
 from agents.content_agent import ContentAgent  # noqa: E402
+from agents.quality_gate import pick_winner, rank_variants  # noqa: E402
 
 
 def _intel_context() -> str:
@@ -76,6 +77,22 @@ def main() -> None:
         metavar="N",
         help="Use calendar slot N (0-based) from latest strategy for topic/platform",
     )
+    parser.add_argument(
+        "--rank",
+        action="store_true",
+        default=True,
+        help="Rank variants with quality gates and pick a winner (default on)",
+    )
+    parser.add_argument(
+        "--no-rank",
+        action="store_true",
+        help="Skip quality ranking",
+    )
+    parser.add_argument(
+        "--no-llm-judge",
+        action="store_true",
+        help="Heuristic quality scores only (no LLM judge)",
+    )
     args = parser.parse_args()
 
     ensure_data_dirs()
@@ -117,6 +134,15 @@ def main() -> None:
         print(str(e), file=sys.stderr)
         sys.exit(1)
 
+    piece_dicts = agent.to_dict_list(pieces)
+    ranked = None
+    winner = None
+    do_rank = args.rank and not args.no_rank
+    if do_rank:
+        print("Ranking variants with quality gates…")
+        ranked = rank_variants(piece_dicts, use_llm=False if args.no_llm_judge else None)
+        winner = ranked[0] if ranked else None
+
     out_dir = ROOT / load_settings()["paths"]["content_out"]
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     out_path = out_dir / f"{stamp}_{platform}.json"
@@ -125,7 +151,9 @@ def main() -> None:
         "platform": platform,
         "generated_at": stamp,
         "strategy_slot": slot,
-        "pieces": agent.to_dict_list(pieces),
+        "pieces": piece_dicts,
+        "ranked": ranked,
+        "winner": winner,
     }
     out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
@@ -134,6 +162,21 @@ def main() -> None:
         print(f"\n--- variant {i} [{status}] intent={p.intent_score} orig={p.originality_score} ---")
         print(p.body)
         print(f"(provider={p.provider}/{p.model}; {p.notes})")
+
+    if ranked:
+        print("\n=== Ranked (quality gates) ===")
+        for r in ranked:
+            q = r["quality"]
+            st = "PASS" if q["passed"] else "FAIL"
+            print(
+                f"  #{r['rank']} [{st}] overall={q['overall']:.2f} "
+                f"humor={q['humor']:.2f} brand={q['brand_fit']:.2f} ({q['source']})"
+            )
+        if winner:
+            print("\nWinner to publish:")
+            print(winner.get("body", ""))
+        else:
+            print("\nNo publishable winner - all variants failed gates.")
 
     print(f"\nSaved → {out_path}")
 
