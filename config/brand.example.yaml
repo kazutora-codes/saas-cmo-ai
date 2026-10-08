@@ -1,0 +1,45 @@
+# Copy to brand.yaml and edit for your SaaS.
+
+product:
+  name: "Acme Analytics"
+  one_liner: "Product analytics that doesn't need a data team"
+  audience: "B2B SaaS founders and growth leads at 5–50 person companies"
+  competitors:
+    - Mixpanel
+    - Amplitude
+    - PostHog
+  differentiators:
+    - Setup in under 10 minutes
+    - Plain-English insights, not dashboards nobody opens
+    - Fair pricing, no enterprise theater
+
+voice:
+  tone: "sharp, dry humor, slightly sarcastic, never corporate"
+  humor_level: high          # low | medium | high
+  sarcasm_ok: true
+  forbidden:
+    - "synergy"
+    - "leverage our solution"
+    - "excited to announce"
+    - "game-changer"
+    - "revolutionary"
+    - generic motivational fluff
+  good_examples:
+    - "Your dashboard has 47 charts. Your team opened 2. Cool product."
+    - "We fixed onboarding by deleting half of it."
+  bad_examples:
+    - "Unlock the power of data-driven decisions today!"
+    - "We're thrilled to share our latest update with the community."
+
+goals:
+  primary: "qualified trials from organic social"
+  secondary:
+    - "brand recognition among technical founders"
+    - "shareable takes that don't feel like ads"
+
+platforms:
+  primary:
+    - x
+    - linkedin
+  video:
+    - short_form_vertical   # 9:16 Reels / Shorts / TikTok style

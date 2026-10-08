@@ -1,0 +1,29 @@
+llm:
+  # Priority order. First available wins.
+  providers:
+    - name: ollama
+      base_url: "http://127.0.0.1:11434/v1"
+      model: "llama3.2"
+      api_key_env: null          # Ollama needs no key
+    - name: groq
+      base_url: "https://api.groq.com/openai/v1"
+      model: "llama-3.3-70b-versatile"
+      api_key_env: "GROQ_API_KEY"
+    - name: gemini
+      base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
+      model: "gemini-2.0-flash"
+      api_key_env: "GEMINI_API_KEY"
+  temperature: 0.85
+  max_tokens: 1200
+
+content:
+  variants_per_topic: 3
+  min_intent_score: 0.7
+  min_originality_score: 0.65
+  max_regenerate_attempts: 3
+
+paths:
+  brand: "config/brand.yaml"
+  data_dir: "data"
+  content_out: "data/content"
+  analytics_db: "data/analytics.db"
